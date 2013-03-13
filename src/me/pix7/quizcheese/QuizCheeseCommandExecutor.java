@@ -6,6 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.scheduler.BukkitTask;
 
 public class QuizCheeseCommandExecutor implements CommandExecutor{
 	
@@ -38,12 +39,17 @@ public class QuizCheeseCommandExecutor implements CommandExecutor{
 			String currentQuizOwner = pl.getConfig().getString("currentQuizOwner");
 			String currentAnswer = pl.getConfig().getString("questions."+currentQuizOwner+".answer");
 			
+			Boolean isWaitingAnswer = pl.getConfig().getBoolean("isWaitingAnswer");
+			if(!(isWaitingAnswer)){
+				sender.sendMessage(quiz+"No quiz is running this time or someone answered it already.");
+			}
+			
 			for(Player player : Bukkit.getOnlinePlayers()){
 	            if(player.hasPermission("quizcheese.create")){
 	                player.sendMessage(quizadmin+sender.getName()+" answered: "+playerAnswer);
 	            }
 	        }
-			//Bukkit.getServer().broadcast(quizadmin+sender.getName()+" answered: "+playerAnswer , "QuizCheese.create");//this line didn't work!
+			
 			if(debug)Bukkit.getServer().broadcastMessage("Ans:"+playerAnswer+",RealAns:"+currentAnswer+";");
 			
 			if(playerAnswer.equalsIgnoreCase(currentAnswer)){
@@ -52,6 +58,8 @@ public class QuizCheeseCommandExecutor implements CommandExecutor{
 				pl.getConfig().set("isWaitingAnswer", false);
 				Bukkit.getServer().broadcastMessage(quiz+sender.getName()+" answered the question correctly!");
 				Bukkit.getServer().broadcastMessage(quiz+"The answer was: "+currentAnswer);
+				int currentTaskId = pl.getConfig().getInt("currentTaskId");
+				Bukkit.getServer().getScheduler().cancelTask(currentTaskId);
 			
 			}else{
 				
@@ -106,9 +114,12 @@ public class QuizCheeseCommandExecutor implements CommandExecutor{
 				pl.getConfig().set("currentQuizOwner", sender.getName());
 				pl.getConfig().set("isWaitingAnswer", true);
 				Bukkit.getServer().broadcastMessage(quiz+ChatColor.AQUA+sender.getName()+" asks: "+ChatColor.WHITE+question);
+				Bukkit.getServer().broadcastMessage(quiz+ChatColor.WHITE+"Use '/aq <answer>' to answer this quiz.");
 				int timedoutSeconds = pl.getConfig().getInt("timed_out");
 				int timedoutTicks = timedoutSeconds * 20;
-				new QuizCheeseTimedOutTask(pl).runTaskLater(pl, timedoutTicks);
+				BukkitTask task = new QuizCheeseTimedOutTask(pl).runTaskLater(pl, timedoutTicks);
+				if(debug)Bukkit.getServer().broadcastMessage("TaskId:"+task.getTaskId());
+				pl.getConfig().set("currentTaskId",task.getTaskId());
 				
 			}
 			
@@ -123,6 +134,12 @@ public class QuizCheeseCommandExecutor implements CommandExecutor{
 			Bukkit.getServer().broadcastMessage(quiz+"Current quiz got cancelled.");
 			
 			return true;
+			
+		}else if(cmd.getName().equalsIgnoreCase("quizcheese")){
+			
+			sender.sendMessage(quizadmin+"/createquiz <question> - to create quiz with question.");
+			sender.sendMessage(quizadmin+"/setanswer <answer> - to set answer for your question.");
+			sender.sendMessage(quizadmin+"/cancelquiz - to cancel current quiz.");
 			
 		}
 		

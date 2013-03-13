@@ -13,6 +13,7 @@ public class QuizCheese extends JavaPlugin{
 		getCommand("aq").setExecutor(new QuizCheeseCommandExecutor(this));
 		getCommand("answerquiz").setExecutor(new QuizCheeseCommandExecutor(this));
 		getCommand("cancelquiz").setExecutor(new QuizCheeseCommandExecutor(this));
+		getCommand("quizcheese").setExecutor(new QuizCheeseCommandExecutor(this));
 		this.getConfig().set("isWaitingAnswer", false);
 		
 	}

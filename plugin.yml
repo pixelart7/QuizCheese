@@ -1,8 +1,13 @@
 name: QuizCheese
 main: me.pix7.quizcheese.QuizCheese
-version: 1
+version: 2
 
 commands:
+  quizcheese:
+    description: Display all commands in this plugin.
+    usage: /quizcheese
+    permission: quizcheese.create
+    permission-message: You don't have permissions.
   createquiz:
     description: This command use to create quiz.
     usage: /createquiz <question>
