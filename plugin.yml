@@ -1,0 +1,30 @@
+name: QuizCheese
+main: me.pix7.quizcheese.QuizCheese
+version: 1
+
+commands:
+  createquiz:
+    description: This command use to create quiz.
+    usage: /createquiz <question>
+    permission: quizcheese.create
+    permission-message: You don't have permissions.
+  setanswer:
+    description: This command use to set answer for lastest question and broadcast it.
+    usage: /setanswer <answer>
+    permission: quizcheese.create
+    permission-message: You don't have permissions.
+  cancelquiz:
+    description: This command use to cancel current quiz.
+    usage: /cancelquiz
+    permission: quizcheese.create
+    permission-message: You don't have permissions.
+  answerquiz:
+    description: This command will answer lastest quiz.
+    usage: /answerquiz <answer>
+    permission: quizcheese.answer
+    permission-message: You don't have permissions.
+  aq:
+    description: Alternative command for answerquiz.
+    usage: /aq <answer>
+    permission: quizcheese.answer
+    permission-message: You don't have permissions.
