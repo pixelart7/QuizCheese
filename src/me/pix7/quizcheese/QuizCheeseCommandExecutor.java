@@ -30,13 +30,14 @@ public class QuizCheeseCommandExecutor implements CommandExecutor{
 				strfinal.append(str);
 				strfinal.append(" ");
 			}
+			if(strfinal.length() == 0)return false;
 			strfinal.deleteCharAt(strfinal.length()-1);
 			String playerAnswer = strfinal.toString();
 			
 			String currentQuizOwner = pl.getConfig().getString("currentQuizOwner");
 			String currentAnswer = pl.getConfig().getString("questions."+currentQuizOwner+".answer");
 			
-			Bukkit.getServer().broadcast(quizadmin+sender.getName()+" answered: "+playerAnswer , "quizcheese.create");//this line didn't work!
+			Bukkit.getServer().broadcast(quizadmin+sender.getName()+" answered: "+playerAnswer , "QuizCheese.create");//this line didn't work!
 			if(debug)Bukkit.getServer().broadcastMessage("Ans:"+playerAnswer+",RealAns:"+currentAnswer+";");
 			
 			if(playerAnswer.equalsIgnoreCase(currentAnswer)){
@@ -61,6 +62,7 @@ public class QuizCheeseCommandExecutor implements CommandExecutor{
 				strfinal.append(str);
 				strfinal.append(" ");
 			}
+			if(strfinal.length() == 0)return false;
 			strfinal.deleteCharAt(strfinal.length()-1);
 			String question = strfinal.toString();
 			
@@ -89,6 +91,7 @@ public class QuizCheeseCommandExecutor implements CommandExecutor{
 					strfinal.append(str);
 					strfinal.append(" ");
 				}
+				if(strfinal.length() == 0)return false;
 				strfinal.deleteCharAt(strfinal.length()-1);
 				String setanswer = strfinal.toString();
 				
