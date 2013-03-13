@@ -42,6 +42,7 @@ public class QuizCheeseCommandExecutor implements CommandExecutor{
 			Boolean isWaitingAnswer = pl.getConfig().getBoolean("isWaitingAnswer");
 			if(!(isWaitingAnswer)){
 				sender.sendMessage(quiz+"No quiz is running this time or someone answered it already.");
+				return true;
 			}
 			
 			for(Player player : Bukkit.getOnlinePlayers()){
