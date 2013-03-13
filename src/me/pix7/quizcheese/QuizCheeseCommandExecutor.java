@@ -13,7 +13,7 @@ public class QuizCheeseCommandExecutor implements CommandExecutor{
 	
 	public QuizCheeseCommandExecutor(QuizCheese plugin) {
 		
-		pl = plugin;
+		this.pl = plugin;
 		
 	}
 	
@@ -88,7 +88,8 @@ public class QuizCheeseCommandExecutor implements CommandExecutor{
 				Boolean isWaitingAnswer = pl.getConfig().getBoolean("isWaitingAnswer");
 				if(isWaitingAnswer == true){
 					
-					sender.sendMessage(quizadmin+"Someone is quizing! Please wait until someone answer it.");
+					sender.sendMessage(quizadmin+"Someone is quizing! Please wait until someone answer it and use this command again.");
+					return true;
 					
 				}
 				
@@ -105,6 +106,9 @@ public class QuizCheeseCommandExecutor implements CommandExecutor{
 				pl.getConfig().set("currentQuizOwner", sender.getName());
 				pl.getConfig().set("isWaitingAnswer", true);
 				Bukkit.getServer().broadcastMessage(quiz+ChatColor.AQUA+sender.getName()+" asks: "+ChatColor.WHITE+question);
+				int timedoutSeconds = pl.getConfig().getInt("timed_out");
+				int timedoutTicks = timedoutSeconds * 20;
+				new QuizCheeseTimedOutTask(pl).runTaskLater(pl, timedoutTicks);
 				
 			}
 			
@@ -112,6 +116,8 @@ public class QuizCheeseCommandExecutor implements CommandExecutor{
 			
 		}else if(cmd.getName().equalsIgnoreCase("cancelquiz")){
 			
+			String currentQuizOwner = pl.getConfig().getString("currentQuizOwner");
+			pl.getConfig().set("questions."+currentQuizOwner+".question", null);
 			pl.getConfig().set("currentQuizOwner", null);
 			pl.getConfig().set("isWaitingAnswer", false);
 			Bukkit.getServer().broadcastMessage(quiz+"Current quiz got cancelled.");
