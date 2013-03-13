@@ -23,6 +23,11 @@ commands:
     usage: /cancelquiz
     permission: quizcheese.create
     permission-message: You don't have permissions.
+  repeatquiz:
+    description: This command use to repeat current quiz question.
+    usage: /repeatquiz
+    permission: quizcheese.create
+    permission-message: You don't have permissions.
   answerquiz:
     description: This command will answer lastest quiz.
     usage: /answerquiz <answer>

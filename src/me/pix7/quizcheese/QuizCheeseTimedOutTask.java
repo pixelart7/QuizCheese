@@ -20,10 +20,12 @@ public class QuizCheeseTimedOutTask extends BukkitRunnable{
 		String quiz = ChatColor.DARK_RED+"(Quiz) "+ChatColor.WHITE;
 		
 		String currentQuizOwner = pl.getConfig().getString("currentQuizOwner");
+		String currentAnswer = pl.getConfig().getString("questions."+currentQuizOwner+".answer");
 		pl.getConfig().set("questions."+currentQuizOwner+".question", null);
 		pl.getConfig().set("currentQuizOwner", null);
 		pl.getConfig().set("isWaitingAnswer", false);
 		Bukkit.getServer().broadcastMessage(quiz+"No one answer it in time!");
+		Bukkit.getServer().broadcastMessage(quiz+"The answer was: "+currentAnswer);
 		
 	}
 	

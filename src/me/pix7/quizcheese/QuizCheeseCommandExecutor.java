@@ -143,6 +143,26 @@ public class QuizCheeseCommandExecutor implements CommandExecutor{
 			sender.sendMessage(quizadmin+"/createquiz <question> - to create quiz with question.");
 			sender.sendMessage(quizadmin+"/setanswer <answer> - to set answer for your question.");
 			sender.sendMessage(quizadmin+"/cancelquiz - to cancel current quiz.");
+			sender.sendMessage(quizadmin+"/repeatquiz - to repeat current quiz.");
+			
+		}else if(cmd.getName().equalsIgnoreCase("repeatquiz")){
+			
+			Boolean isWaitingAnswer = pl.getConfig().getBoolean("isWaitingAnswer");
+			
+			if(!(isWaitingAnswer)){
+				
+				sender.sendMessage(quiz+"No quiz is running at this moment.");
+				return true;
+				
+			}else{
+			
+				String currentQuizOwner = pl.getConfig().getString("currentQuizOwner");
+				String question = pl.getConfig().getString("questions."+currentQuizOwner+".question");
+				Bukkit.getServer().broadcastMessage(quiz+ChatColor.AQUA+sender.getName()+" asks(repeat): "+ChatColor.WHITE+question);
+				
+				return true;
+				
+			}
 			
 		}
 		
