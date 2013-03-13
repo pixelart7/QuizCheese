@@ -5,6 +5,7 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 
 public class QuizCheeseCommandExecutor implements CommandExecutor{
 	
@@ -37,7 +38,12 @@ public class QuizCheeseCommandExecutor implements CommandExecutor{
 			String currentQuizOwner = pl.getConfig().getString("currentQuizOwner");
 			String currentAnswer = pl.getConfig().getString("questions."+currentQuizOwner+".answer");
 			
-			Bukkit.getServer().broadcast(quizadmin+sender.getName()+" answered: "+playerAnswer , "QuizCheese.create");//this line didn't work!
+			for(Player player : Bukkit.getOnlinePlayers()){
+	            if(player.hasPermission("quizcheese.create")){
+	                player.sendMessage(quizadmin+sender.getName()+" answered: "+playerAnswer);
+	            }
+	        }
+			//Bukkit.getServer().broadcast(quizadmin+sender.getName()+" answered: "+playerAnswer , "QuizCheese.create");//this line didn't work!
 			if(debug)Bukkit.getServer().broadcastMessage("Ans:"+playerAnswer+",RealAns:"+currentAnswer+";");
 			
 			if(playerAnswer.equalsIgnoreCase(currentAnswer)){
