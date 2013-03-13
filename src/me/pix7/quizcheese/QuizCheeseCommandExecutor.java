@@ -132,6 +132,8 @@ public class QuizCheeseCommandExecutor implements CommandExecutor{
 			pl.getConfig().set("questions."+currentQuizOwner+".question", null);
 			pl.getConfig().set("currentQuizOwner", null);
 			pl.getConfig().set("isWaitingAnswer", false);
+			int currentTaskId = pl.getConfig().getInt("currentTaskId");
+			Bukkit.getServer().getScheduler().cancelTask(currentTaskId);
 			Bukkit.getServer().broadcastMessage(quiz+"Current quiz got cancelled.");
 			
 			return true;
